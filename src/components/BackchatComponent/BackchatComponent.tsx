@@ -16,6 +16,7 @@
 import React from 'react';
 import { Header, Page, Content, HeaderLabel } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
+import { FeatureFlagged } from '@backstage/core-app-api';
 
 export const BackchatComponent = () => {
   // Get config API
@@ -35,14 +36,19 @@ export const BackchatComponent = () => {
         <HeaderLabel label="Lifecycle" value="Alpha" />
       </Header>
       <Content noPadding stretch>
-        <iframe
-          width="100%"
-          height="100%"
-          style={{ border: '0px', borderRadius: '0px', boxShadow: '0px' }}
-          src={ai_server_url}
-          title="Backchat AI"
-          sandbox="allow-same-origin allow-scripts allow-popups"
-        />
+        <FeatureFlagged with="use-builtin-ui">
+          <h1>Here we'll build up the UI</h1>
+        </FeatureFlagged>
+        <FeatureFlagged without="use-builtin-ui">
+          <iframe
+            width="100%"
+            height="100%"
+            style={{ border: '0px', borderRadius: '0px', boxShadow: '0px' }}
+            src={ai_server_url}
+            title="Backchat AI"
+            sandbox="allow-same-origin allow-scripts allow-popups"
+          />
+        </FeatureFlagged>
       </Content>
     </Page>
   );

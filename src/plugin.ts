@@ -25,6 +25,7 @@ export const backchatPlugin = createPlugin({
   routes: {
     root: rootRouteRef,
   },
+  featureFlags: [{ name: 'use-builtin-ui' }],
 });
 
 export const BackchatPage = backchatPlugin.provide(
