@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 import React from 'react';
-import { Header, Page, Content, HeaderLabel } from '@backstage/core-components';
+import { Header, Page, Content, HeaderLabel, ChatIcon } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { FeatureFlagged } from '@backstage/core-app-api';
+import { Box, Button, Drawer, List, ListItemSecondaryAction, ListItemText, Theme, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { ListItem, ListItemIcon, ListItemButton } from '@mui/material';
+import { Delete, Edit } from '@material-ui/icons';
+
+const useDrawerStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    paper: {
+      width: '30%',
+      justifyContent: 'space-between',
+      padding: theme.spacing(2.5),
+    },
+  }),
+);
+
 
 export const BackchatComponent = () => {
   // Get config API
@@ -37,7 +51,43 @@ export const BackchatComponent = () => {
       </Header>
       <Content noPadding stretch>
         <FeatureFlagged with="use-builtin-ui">
-          <h1>Here we'll build up the UI</h1>
+          <Drawer
+            classes={{
+              paper: useDrawerStyles().paper
+            }}
+            variant="persistent"
+            anchor="right"
+            open={true}>
+              <Typography variant="h4" gutterBottom>Conversations</Typography>
+              <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+                <List>
+                  <ListItemButton>
+                    <ListItemIcon><ChatIcon /></ListItemIcon>
+                    <ListItemText primary="Lorem ipsum dolor sit amet ..." />
+                    <ListItemSecondaryAction>
+                      <Button size="small" variant="text"><Edit /></Button>
+                      <Button size="small" variant="text"><Delete/></Button>
+                    </ListItemSecondaryAction>
+                  </ListItemButton>
+                  <ListItemButton>
+                    <ListItemIcon><ChatIcon /></ListItemIcon>
+                    <ListItemText primary="Lorem ipsum dolor sit amet ..." />
+                    <ListItemSecondaryAction>
+                      <Button size="small" variant="text"><Edit /></Button>
+                      <Button size="small" variant="text"><Delete/></Button>
+                    </ListItemSecondaryAction>
+                  </ListItemButton>
+                  <ListItemButton>
+                    <ListItemIcon><ChatIcon /></ListItemIcon>
+                    <ListItemText primary="Lorem ipsum dolor sit amet ..." />
+                    <ListItemSecondaryAction>
+                      <Button size="small" variant="text"><Edit /></Button>
+                      <Button size="small" variant="text"><Delete/></Button>
+                    </ListItemSecondaryAction>
+                  </ListItemButton>
+                </List>
+              </Box>
+          </Drawer>
         </FeatureFlagged>
         <FeatureFlagged without="use-builtin-ui">
           <iframe
