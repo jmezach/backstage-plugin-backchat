@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from 'react';
-import { Header, Page, Content, HeaderLabel, ChatIcon } from '@backstage/core-components';
+import React, { useState } from 'react';
+import { Header, Page, Content, HeaderLabel, ChatIcon, Table } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { FeatureFlagged } from '@backstage/core-app-api';
-import { Box, Button, Drawer, List, ListItemSecondaryAction, ListItemText, Theme, Typography, createStyles, makeStyles } from '@material-ui/core';
-import { ListItem, ListItemIcon, ListItemButton } from '@mui/material';
-import { Delete, Edit } from '@material-ui/icons';
+import { Box, Button, Drawer, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Paper, Theme, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { ListItemIcon, ListItemButton } from '@mui/material';
+import { Android, Delete, Edit, Person } from '@material-ui/icons';
+import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 
 const useDrawerStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +32,6 @@ const useDrawerStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 export const BackchatComponent = () => {
   // Get config API
   const configApi = useApi(configApiRef);
@@ -39,6 +39,8 @@ export const BackchatComponent = () => {
   // // Read url from config
   const ai_server_url =
     configApi.getOptionalString('ai_server.url') || 'http://localhost:3001';
+
+  const [isOpen, toggleDrawer] = useState(false);
 
   return (
     <Page themeId="tool">
@@ -51,13 +53,38 @@ export const BackchatComponent = () => {
       </Header>
       <Content noPadding stretch>
         <FeatureFlagged with="use-builtin-ui">
+          <Box>
+            <List>
+              <ListItem>
+                <ListItemAvatar children={<Person />} />
+                <ListItemText primary="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iste error nihil, molestiae incidunt ad quod non numquam, porro laborum ab sunt accusamus pariatur. Deleniti dolore ipsam voluptatum, doloribus numquam nostrum?" />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar children={<Android />} />
+                <ListItemText primary="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem, voluptate sequi! Reprehenderit harum, ad repellat aliquam ipsa nam aliquid iste, delectus ipsum, illo optio quo quia suscipit et facere non." />
+              </ListItem>
+              <ListItem>
+                <ListItemAvatar children={<Person />} />
+                <ListItemText primary="Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ea soluta dolores, sint rem totam doloribus perferendis. Adipisci suscipit maxime placeat tempore odit. Odit facilis sapiente earum quae aspernatur omnis." />
+              </ListItem>
+            </List>
+          </Box>
+          <Paper style={{position: "fixed", bottom: 0, left: 72, right: 0 }} elevation={3}>
+            <ToggleButtonGroup>
+              <ToggleButton value="check" selected={isOpen} onChange={() => {
+                  toggleDrawer(!isOpen);
+                }}>
+                <ChatIcon />
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Paper>
           <Drawer
             classes={{
               paper: useDrawerStyles().paper
             }}
             variant="persistent"
             anchor="right"
-            open={true}>
+            open={isOpen}>
               <Typography variant="h4" gutterBottom>Conversations</Typography>
               <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
                 <List>
