@@ -70,13 +70,11 @@ export const BackchatComponent = () => {
             </List>
           </Box>
           <Paper style={{position: "fixed", bottom: 0, left: 72, right: 0 }} elevation={3}>
-            <ToggleButtonGroup>
-              <ToggleButton value="check" selected={isOpen} onChange={() => {
-                  toggleDrawer(!isOpen);
-                }}>
-                <ChatIcon />
-              </ToggleButton>
-            </ToggleButtonGroup>
+            <ToggleButton value="check" selected={isOpen} onChange={() => {
+                toggleDrawer(!isOpen);
+              }}>
+              <ChatIcon />
+            </ToggleButton>
           </Paper>
           <Drawer
             classes={{
