@@ -17,10 +17,10 @@ import React, { useState } from 'react';
 import { Header, Page, Content, HeaderLabel, ChatIcon, Table } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { FeatureFlagged } from '@backstage/core-app-api';
-import { Box, Button, Drawer, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Paper, Theme, Typography, createStyles, makeStyles } from '@material-ui/core';
-import { ListItemIcon, ListItemButton } from '@mui/material';
-import { Android, Delete, Edit, Person } from '@material-ui/icons';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { Box, Button, Drawer, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Paper, TextField, Theme, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { ListItemIcon, ListItemButton, Stack } from '@mui/material';
+import { Android, Close, Delete, Edit, Person } from '@material-ui/icons';
+import { ToggleButton } from '@material-ui/lab';
 
 const useDrawerStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,14 +68,21 @@ export const BackchatComponent = () => {
                 <ListItemText primary="Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis ea soluta dolores, sint rem totam doloribus perferendis. Adipisci suscipit maxime placeat tempore odit. Odit facilis sapiente earum quae aspernatur omnis." />
               </ListItem>
             </List>
+            <Paper style={{position: "fixed", bottom: 0, left: 72, right: 0 }} elevation={3}>
+              <Stack direction="row" spacing={3}>
+                <TextField label="Type a message" variant="outlined" fullWidth InputProps={
+                  {
+                    endAdornment: <Button variant="contained" color="primary">Send</Button>
+                  }
+                } />
+                <ToggleButton value="check" selected={isOpen} onChange={() => {
+                    toggleDrawer(!isOpen);
+                  }}>
+                  <ChatIcon />
+                </ToggleButton>
+              </Stack>
+            </Paper>
           </Box>
-          <Paper style={{position: "fixed", bottom: 0, left: 72, right: 0 }} elevation={3}>
-            <ToggleButton value="check" selected={isOpen} onChange={() => {
-                toggleDrawer(!isOpen);
-              }}>
-              <ChatIcon />
-            </ToggleButton>
-          </Paper>
           <Drawer
             classes={{
               paper: useDrawerStyles().paper
@@ -83,8 +90,22 @@ export const BackchatComponent = () => {
             variant="persistent"
             anchor="right"
             open={isOpen}>
-              <Typography variant="h4" gutterBottom>Conversations</Typography>
-              <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}>
+                <Typography variant="h4" gutterBottom>Conversations</Typography>
+                <IconButton
+                  key="dismiss"
+                  title="Close the drawer"
+                  onClick={() => toggleDrawer(false)}
+                  color="inherit"
+                >
+                  <Close style={{fontSize: 20}} />
+                </IconButton>
+              </div>
+              <Box sx={{ flexGrow: 1 }}>
                 <List>
                   <ListItemButton>
                     <ListItemIcon><ChatIcon /></ListItemIcon>
