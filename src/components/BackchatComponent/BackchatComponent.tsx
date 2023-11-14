@@ -87,7 +87,7 @@ export const BackchatComponent = () => {
             classes={{
               paper: useDrawerStyles().paper
             }}
-            variant="persistent"
+            variant="temporary"
             anchor="right"
             open={isOpen}>
               <div style={{
